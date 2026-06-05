@@ -222,3 +222,6 @@ __marimo__/
 data/
 mlflow.db
 mlruns/
+
+
+models/
