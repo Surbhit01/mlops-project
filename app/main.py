@@ -19,7 +19,7 @@ local_model  = load_from_pkl("models/model.pkl")
 # ── Health check ───────────────────────────────────────────────────
 @app.get("/health")
 def health():
-    return {"status": "healthy. API is running fine"}
+    return {"status": "healthy"}
 
 
 # # ── Predict using MLflow model ─────────────────────────────────────
