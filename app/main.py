@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI, HTTPException
 from app.schemas import EmployeeInput, PredictionOutput
-from app.model_loader import load_from_mlflow, load_from_pkl
+from app.model_loader import load_from_pkl
 import pandas as pd
 
 app = FastAPI(
@@ -12,7 +12,7 @@ app = FastAPI(
 )
 
 # ── Load both models at startup ────────────────────────────────────
-mlflow_model = load_from_mlflow("AttritionGuard", version="1")
+# mlflow_model = load_from_mlflow("AttritionGuard", version="1")
 local_model  = load_from_pkl("models/model.pkl")
 
 
@@ -22,20 +22,20 @@ def health():
     return {"status": "healthy. API is running fine"}
 
 
-# ── Predict using MLflow model ─────────────────────────────────────
-@app.post("/predict/mlflow", response_model=PredictionOutput)
-def predict_mlflow(employee: EmployeeInput):
-    """Predict using model loaded from MLflow registry."""
-    try:
-        input_df     = pd.DataFrame([employee.model_dump()])
-        probability  = float(mlflow_model.predict_proba(input_df)[0][1])
-        return PredictionOutput(
-            attrition_risk = "High" if probability >= 0.5 else "Low",
-            probability    = round(probability, 4),
-            model_source   = "MLflow Registry — version 1"
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# # ── Predict using MLflow model ─────────────────────────────────────
+# @app.post("/predict/mlflow", response_model=PredictionOutput)
+# def predict_mlflow(employee: EmployeeInput):
+#     """Predict using model loaded from MLflow registry."""
+#     try:
+#         input_df     = pd.DataFrame([employee.model_dump()])
+#         probability  = float(mlflow_model.predict_proba(input_df)[0][1])
+#         return PredictionOutput(
+#             attrition_risk = "High" if probability >= 0.5 else "Low",
+#             probability    = round(probability, 4),
+#             model_source   = "MLflow Registry — version 1"
+#         )
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 # ── Predict using local pkl model ─────────────────────────────────

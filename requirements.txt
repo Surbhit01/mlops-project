@@ -1,5 +1,9 @@
-mlflow # pip install mlflow
-scikit-learn
-xgboost
-matplotlib
-pandas
+fastapi==0.136.3
+uvicorn==0.48.0
+pandas==2.3.3
+scikit-learn==1.9.0
+xgboost==3.2.0
+mlflow==3.13.0
+pydantic==2.10.6
+matplotlib==3.10.9
+requests==2.34.2
